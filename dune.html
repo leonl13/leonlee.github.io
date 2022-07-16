@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Leon Lee | Cryptocurrency and NFT Analysis using SQL</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href=javascript:history.back() class="title">< BACK</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="index.html#one" class="active">Projects</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<section id="main" class="wrapper">
+							<div class="inner">
+								<h1 class="major">Cryptocurrency and NFT Analysis using SQL</h1>
+	
+								<!-- Text -->
+									<section>
+										<h2>Introduction</h2>
+										<p>This is actually different projects jumbled into one page. All of the projects leverage the wonderful features of 
+											<a href="https://www.dune.com/home">Dune Analytics</a>.</p>
+										<p>
+											Dune is essentially a platform that gives the user access to near endless amounts of blockchain data which
+											you can then query using SQL. An extra handy feature is that users can create visualizations and dashboards directly using the SQL code. Like other
+											communities, the website is completely free and open source, really driving home the emphasis on collaboration and building off of other members
+											in the community to constantly improve.
+										</p>
+										<h2>Example</h2>
+										<p>
+											Take this example: you've taken interest in NFTs recently and for lack of a better example, you like Unamused Monkies (yes, it's a joke, I mean Bored Apes), 
+											and you want to buy in, but you want more in-depth metrics as to how it's been performing. You want to check something as simple as how the floor price 
+											of the collection has been holding up. You'd think it'd be easy, but for whatever reason, Opensea doesn't provide it. They only tell you the volume and the 
+											daily average price of the NFTs sold. And this is where Dune comes in:
+										</p>
+											<pre><code>SELECT
+	DATE_TRUNC('day', block_time) AS Day,
+	SUM(original_amount) AS Volume,
+	PERCENTILE_CONT(0.1) WITHIN GROUP (ORDER BY original_amount) AS Floor
+	FROM nft.trades
+WHERE 
+	nft.trades."original_currency" in ('ETH', 'WETH')
+	AND "number_of_items" = 1
+	AND "original_amount" > 0.01
+	AND "platform" = 'OpenSea'
+	AND nft_contract_address = CONCAT('\x', SUBSTRING('{{Project Contract Address}}', 3))::bytea
+GROUP BY 1
+ORDER BY 1 DESC</code></pre>
+										<p>
+											The {{Project Contract Address}} field in the code above is there to tell Dune that this is a parameter
+											for the user to input. So this generic code to show daily floor price works for any NFT project of the user's choice.
+										</p>
+										<h2>Projects</h2>
+										<span class="image right"><img src="images/wallettracker.png" alt="Ethereum Wallet Tracker"/></span>
+										<p>I've worked on several projects, such as an Ethereum cryptocurrency wallet tracker and an analytics comparison between two similar 
+											NFT projects.
+										</p>
+										<p>
+											Shown on the right is the Ethereum cryptocurrency wallet tracker. I originally made this as a means of convenience. For anyone has had
+											the pleasure using a crypto wallet such as Metamask, they would quickly discover that it is extremely annoying to keep track of your
+											transactions. You'd either have to scroll through Metamask clicking into each transaction one by one or use Etherscan, neither of which is
+											very user friendly. This wallet tracker shows your balance, profit/loss, as well as transactions and all the gas fees that the wallet has
+											incurred.
+										</p>
+
+										<p>
+											All projects, including the SQL code, can be found directly on Dune Analytics page: <a href="https://www.dune.com/leonl">https://www.dune.com/leonl</a>
+										</p>
+										<p></p>
+										<hr />
+									</section>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; 2022 Leon Lee. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
